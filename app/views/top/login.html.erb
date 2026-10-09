@@ -1,4 +1,4 @@
-<%= form_with url: top_login_path, data: { turbo: false } do |f| %>
+<%= form_with url: top_login_path, method: :post, data: { turbo: false } do |f| %>
   <%= f.label :uid, 'ユーザーID' %>
   <%= f.text_field :uid %>
   <%= f.label :pass, 'パスワード' %>
