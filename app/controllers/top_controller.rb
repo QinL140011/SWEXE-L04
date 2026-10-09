@@ -1,3 +1,4 @@
+# app/controllers/top_controller.rb
 class TopController < ApplicationController
   def main
     if session[:login_uid].nil?
@@ -8,15 +9,19 @@ class TopController < ApplicationController
   end
 
   def login
-    uid  = params[:uid]
-    pass = params[:pass]
+    user = User.find_by(uid: params[:uid])
 
-    if uid == "kindai" && pass == "sanriko"
-      session[:login_uid] = uid
+    if user && BCrypt::Password.new(user.pass) == params[:pass]
+      session[:login_uid] = user.uid
       redirect_to top_main_path
     else
       @error = "IDまたはパスワードが違います"
       render "error"
     end
+  end
+
+  def logout
+    session.delete(:login_uid)
+    redirect_to top_main_path
   end
 end
